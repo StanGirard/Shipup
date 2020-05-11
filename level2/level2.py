@@ -10,13 +10,13 @@ def main():
         data = json.load(json_file)
         # Generate dic of carriers delivery time for easy search and saturday shipping
         for p in data['carriers']:
-            carries[p["code"]] = [p["delivery_promise"], p["saturday_deliveries"]]
+            carries[p["code"]] = {"delivery_promise":p["delivery_promise"], "saturday_deliveries":p["saturday_deliveries"]}
         
         #Generate the deliveries output from packages
         for package in data['packages']:
             package_shipping_date = datetime.date.fromisoformat(package["shipping_date"])
-            carrier_shipping_time = carries[package["carrier"]][0]
-            carrier_shipping_saturdays = carries[package["carrier"]][1]
+            carrier_shipping_time = carries[package["carrier"]]["delivery_promise"]
+            carrier_shipping_saturdays = carries[package["carrier"]]["saturday_deliveries"]
 
             for _ in range(carrier_shipping_time):
                 weekday = package_shipping_date.weekday()
